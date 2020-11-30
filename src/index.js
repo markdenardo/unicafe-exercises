@@ -1,70 +1,104 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
-const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [all, setAll] = useState(0)
-  const [sum, setSum] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positive, setPositive] = useState(0)
+// const App = () => {
+//   // save clicks of each button to its own state
+//   const [good, setGood] = useState(0)
+//   const [neutral, setNeutral] = useState(0)
+//   const [bad, setBad] = useState(0)
+//   const [all, setAll] = useState(0)
+//   const [sum, setSum] = useState(0)
+//   const [average, setAverage] = useState(0)
+//   const [positive, setPositive] = useState(0)
 
-  const calculateAverage = () => {
 
+//   const goodValue = () => {
+//     console.log('clicked')
+//     setGood(good+1)
+//     setAll(all+1)   
+//     setSum(sum+1)
+
+//   }
+//   const neutralValue = () => {
+//     console.log('clicked')
+//     setNeutral(neutral+1)
+//     setAll(all + 1)
+//     setSum(sum+0)
+//   }
+
+//   const badValue = () => {
+//     console.log('clicked')
+//     setBad(bad+1)
+//     setAll(all + 1)
+//     setSum(sum-1)
+//   }
+
+//   const setStats = () => {
+//       console.log(all)
+//       setAverage(sum / all)
+//       setPositive(sum / good * 100)
+
+//   }
+
+//   useEffect(setStats, [all, good, sum])
+
+//   return (
+//     <div>
+//       <h1>give feedback</h1>
+      
+//       <button onClick={() => goodValue()} text="good">good</button>
+//       <button onClick={() => neutralValue()} text="neutral" >neutral</button>
+//       <button onClick={() => badValue()} text="bad">bad</button>
+
+//       <h1>statistics</h1>
+//       <ul>good {good}</ul>
+//       <ul>neutral {neutral}</ul>
+//       <ul>bad {bad}</ul>
+//       <ul>all {all}</ul>
+//       <ul>sum {sum}</ul>
+//       <ul>average {average}</ul>
+//       <ul>positive {positive}</ul>
+//     </div>
+//   )
+// }
+
+const App = (props) => {
+  
+  const [selected, setSelected] = useState(0)
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 
-  const goodValue = () => {
-    console.log('clicked')
-    setGood(good+1)
-    setAll(all+1)   
-    setSum(sum+1)
-
-  }
-  const neutralValue = () => {
-    console.log('clicked')
-    setNeutral(neutral+1)
-    setAll(all + 1)
-    setSum(sum+0)
+  const random = () => {
+   let index = props.anecdotes.length
+      if (index !== undefined){
+        setSelected(getRandomInt(index))
+        console.log(selected)
+      }
   }
 
-  const badValue = () => {
-    console.log('clicked')
-    setBad(bad+1)
-    setAll(all + 1)
-    setSum(sum-1)
-  }
-
-  const setStats = () => {
-      console.log(all)
-      setAverage(sum / all)
-      setPositive(sum / good * 100)
-
-  }
-
-  useEffect(setStats, [all, good, sum])
+  useEffect (random, []) 
 
   return (
     <div>
-      <h1>give feedback</h1>
-      
-      <button onClick={() => goodValue()} text="good">good</button>
-      <button onClick={() => neutralValue()} text="neutral" >neutral</button>
-      <button onClick={() => badValue()} text="bad">bad</button>
-
-      <h1>statistics</h1>
-      <ul>good {good}</ul>
-      <ul>neutral {neutral}</ul>
-      <ul>bad {bad}</ul>
-      <ul>all {all}</ul>
-      <ul>sum {sum}</ul>
-      <ul>average {average}</ul>
-      <ul>positive {positive}</ul>
+      {props.anecdotes[selected]}<br/>
+      <button onClick={()=>random()}>new anecdote</button>
     </div>
   )
 }
 
-ReactDOM.render(<App />,
+const anecdotes = [
+  'If it hurts, do it more often',
+  'Adding manpower to a late software project makes it later!',
+  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+  'Premature optimization is the root of all evil.',
+  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+]
+
+
+ReactDOM.render(
+  <App anecdotes={anecdotes} />,
   document.getElementById('root')
 )
