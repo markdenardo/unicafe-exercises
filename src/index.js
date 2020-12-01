@@ -67,6 +67,7 @@ const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [array, setArray] = useState([{}])
   const [votes, setVotes] = useState([0,0,0,0,0,0])
+  const [highest, setHighest] = useState('')
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -91,16 +92,25 @@ const App = (props) => {
     setVotes(copy)
   }
 
+  const highestVotes = () => {
+    let i = votes.indexOf(Math.max(...votes));
+    setHighest(props.anecdotes[i].quote)
+  }
+
   // useEffect(random, [array, props.anecdotes]) 
+  useEffect(highestVotes, [props, votes])
 
   return (
     <div>
+      <h1>Quotes</h1>
       {/* {array[selected].quote}<br/> */}
       {props.anecdotes[selected].quote}<br/>
       {/* This quote has {array[selected].votes} votes <br/> */}
       This quote has {votes[selected]} votes <br/>
       <button onClick={()=>random()}>new anecdote</button>
       <button onClick={()=>vote()}>vote</button>
+      <h1>Most Voted Quote</h1>
+      {highest}
     </div>
   )
 }
