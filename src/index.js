@@ -65,40 +65,40 @@ import ReactDOM from 'react-dom'
 const App = (props) => {
   
   const [selected, setSelected] = useState(0)
-  const [array, setArray] = useState([])
+  const [array, setArray] = useState([{}])
+  const [votes, setVotes] = useState([0,0,0,0,0,0])
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
-  const random = () => {
-    getArray()
-   let index = array.length
+  const random = () => {  
+    // setArray()
+  //  let index = array.length
+    let index = props.anecdotes.length
       if (index !== undefined){
         setSelected(getRandomInt(index))
-        // console.log(selected)
       }
   }
 
-  const getArray = () => {
-    // debugger
-    // console.log(props)
-    setArray(props.anecdotes)
-  //  console.log(array)
-  }
+  // const getArray = () => {
+  //     setArray(props.anecdotes)
+  // }
 
   const vote = () => {
-
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
   }
 
-  useEffect(random, array) 
+  // useEffect(random, [array, props.anecdotes]) 
 
   return (
     <div>
-      <br/>
+      {/* {array[selected].quote}<br/> */}
       {props.anecdotes[selected].quote}<br/>
-      This quote has {props.anecdotes[selected].votes} votes<br/>
       {/* This quote has {array[selected].votes} votes <br/> */}
+      This quote has {votes[selected]} votes <br/>
       <button onClick={()=>random()}>new anecdote</button>
       <button onClick={()=>vote()}>vote</button>
     </div>
